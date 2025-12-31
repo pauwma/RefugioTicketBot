@@ -23,9 +23,11 @@ module.exports.post = fastify => ({
 		const settings = await client.prisma.guild.findUnique({
 			select: {
 				categories: true,
+				englishRoleId: true,
 				footer: true,
 				locale: true,
 				primaryColour: true,
+				spanishRoleId: true,
 			},
 			where: { id: guild.id },
 		});
@@ -125,12 +127,36 @@ module.exports.post = fastify => ({
 
 			}
 
+			// Determine which role(s) to mention based on category locales
+			let roleMentions = '';
+			if (categories.length === 1) {
+				// Single category: mention the role for that category's locale
+				const categoryLocale = categories[0].locale || 'en-GB';
+				if (categoryLocale === 'en-GB' && settings.englishRoleId) {
+					roleMentions = `<@&${settings.englishRoleId}>`;
+				} else if (categoryLocale === 'es-ES' && settings.spanishRoleId) {
+					roleMentions = `<@&${settings.spanishRoleId}>`;
+				}
+			} else {
+				// Multiple categories: mention all unique language roles
+				const locales = [...new Set(categories.map(c => c.locale || 'en-GB'))];
+				const mentions = [];
+				if (locales.includes('en-GB') && settings.englishRoleId) {
+					mentions.push(`<@&${settings.englishRoleId}>`);
+				}
+				if (locales.includes('es-ES') && settings.spanishRoleId) {
+					mentions.push(`<@&${settings.spanishRoleId}>`);
+				}
+				roleMentions = mentions.join(' ');
+			}
+
 			try {
 				await channel.send({
 					components: [
 						new ActionRowBuilder()
 							.setComponents(components),
 					],
+					content: roleMentions || undefined,
 					embeds: [embed],
 				});
 			} catch (error) {
