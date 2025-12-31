@@ -464,7 +464,7 @@ module.exports = class TicketManager {
 
 		const embeds = [
 			new ExtendedEmbedBuilder()
-				.setColor(category.guild.primaryColour)
+				.setColor(0x00ff88) // Bright green/cyan for tickets
 				.setAuthor({
 					iconURL: creator.displayAvatarURL(),
 					name: creator.displayName,
@@ -484,7 +484,7 @@ module.exports = class TicketManager {
 		if (answers) {
 			embeds.push(
 				new ExtendedEmbedBuilder()
-					.setColor(category.guild.primaryColour)
+					.setColor(0x00ff88) // Bright green/cyan for tickets
 					.setFields(
 						category.questions
 							.map(q => ({
@@ -496,7 +496,7 @@ module.exports = class TicketManager {
 		} else if (topic) {
 			embeds.push(
 				new ExtendedEmbedBuilder()
-					.setColor(category.guild.primaryColour)
+					.setColor(0x00ff88) // Bright green/cyan for tickets
 					.setFields({
 						name: getMessage('ticket.opening_message.fields.topic'),
 						value: topic,

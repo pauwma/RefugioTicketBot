@@ -62,7 +62,7 @@ module.exports.post = fastify => ({
 		}
 
 		const embed = new EmbedBuilder()
-			.setColor(settings.primaryColour);
+			.setColor(0x00ff88); // Bright green/cyan for panels
 
 		if (settings.footer) {
 			embed.setFooter({
@@ -90,7 +90,7 @@ module.exports.post = fastify => ({
 							action: 'create',
 							target: categories[0].id,
 						}))
-						.setStyle(Primary)
+						.setStyle(Secondary) // Gray button
 						.setLabel(categoryGetMessage('buttons.create.text'))
 						.setEmoji('🎟️'),
 				);
