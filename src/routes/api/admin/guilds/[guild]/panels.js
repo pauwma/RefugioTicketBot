@@ -29,7 +29,7 @@ module.exports.post = fastify => ({
 			},
 			where: { id: guild.id },
 		});
-		const getMessage = client.i18n.getLocale(settings.locale);
+		const getMessage = client.i18n.getLocale(settings.locale); // For menu placeholder only
 		const categories = data.categories.map(id => {
 			const category = settings.categories.find(c => c.id === id);
 			if (!category) throw new Error(`Invalid category: ${id}`);
@@ -82,6 +82,8 @@ module.exports.post = fastify => ({
 			const components = [];
 
 			if (categories.length === 1) {
+				// Use the category's locale for the button text
+				const categoryGetMessage = client.i18n.getLocale(categories[0].locale);
 				components.push(
 					new ButtonBuilder()
 						.setCustomId(JSON.stringify({
@@ -89,7 +91,7 @@ module.exports.post = fastify => ({
 							target: categories[0].id,
 						}))
 						.setStyle(Primary)
-						.setLabel(getMessage('buttons.create.text'))
+						.setLabel(categoryGetMessage('buttons.create.text'))
 						.setEmoji('🎟️'),
 				);
 			} else if (data.type === 'BUTTON') {
