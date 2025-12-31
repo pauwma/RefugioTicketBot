@@ -67,7 +67,7 @@ module.exports = class RemoveSlashCommand extends SlashCommand {
 			});
 		}
 
-		const getMessage = client.i18n.getLocale(ticket.guild.locale);
+		const getMessage = client.i18n.getLocale(ticket.category.locale);
 
 		if (
 			ticket.id !== interaction.channel.id &&

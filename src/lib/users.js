@@ -70,3 +70,25 @@ module.exports.getPrivilegeLevel = async member => {
 	else if (await this.isStaff(member.guild, member.id)) return 1;
 	else return 0;
 };
+
+/**
+ * Detect user's preferred language based on their roles
+ * Priority: English role > Spanish role > Default locale
+ *
+ * @param {import("discord.js").GuildMember} member - The guild member
+ * @param {Object} guildSettings - Guild settings with englishRoleId and spanishRoleId
+ * @param {string} [defaultLocale='en-GB'] - Fallback locale
+ * @returns {string} - Locale code (en-GB or es-ES)
+ */
+module.exports.getUserLanguage = (member, guildSettings, defaultLocale = 'en-GB') => {
+	// Priority: English role > Spanish role > Default
+	if (guildSettings.englishRoleId && member.roles.cache.has(guildSettings.englishRoleId)) {
+		return 'en-GB';
+	}
+
+	if (guildSettings.spanishRoleId && member.roles.cache.has(guildSettings.spanishRoleId)) {
+		return 'es-ES';
+	}
+
+	return defaultLocale;
+};

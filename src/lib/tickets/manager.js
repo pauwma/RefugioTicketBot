@@ -189,7 +189,7 @@ module.exports = class TicketManager {
 		/** @type {import("discord.js").Guild} */
 		const guild = this.client.guilds.cache.get(category.guild.id);
 		const member = interaction.member ?? await guild.members.fetch(interaction.user.id);
-		const getMessage = this.client.i18n.getLocale(category.guild.locale);
+		const getMessage = this.client.i18n.getLocale(category.locale);
 
 		const rlKey = `ratelimits/guild-user:${category.guildId}-${interaction.user.id}`;
 		const rl = await this.client.keyv.get(rlKey);
@@ -397,7 +397,7 @@ module.exports = class TicketManager {
 
 		/** @type {import("discord.js").Guild} */
 		const guild = this.client.guilds.cache.get(category.guild.id);
-		const getMessage = this.client.i18n.getLocale(category.guild.locale);
+		const getMessage = this.client.i18n.getLocale(category.locale);
 		const creator = await guild.members.fetch(interaction.user.id);
 		const number = await this.getNextNumber(category.guild.id);
 		const channelName = category.channelName
@@ -824,7 +824,7 @@ module.exports = class TicketManager {
 			},
 			where: { id: interaction.channel.id },
 		});
-		const getMessage = this.client.i18n.getLocale(ticket.guild.locale);
+		const getMessage = this.client.i18n.getLocale(ticket.category.locale);
 
 		if (!(await isStaff(interaction.guild, interaction.user.id))) { // if user is not staff
 			return await interaction.reply({
@@ -927,7 +927,7 @@ module.exports = class TicketManager {
 			},
 			where: { id: interaction.channel.id },
 		});
-		const getMessage = this.client.i18n.getLocale(ticket.guild.locale);
+		const getMessage = this.client.i18n.getLocale(ticket.category.locale);
 
 		if (!(await isStaff(interaction.guild, interaction.user.id))) { // if user is not staff
 			return await interaction.reply({
@@ -1078,7 +1078,7 @@ module.exports = class TicketManager {
 			});
 		}
 
-		const getMessage = this.client.i18n.getLocale(ticket.guild.locale);
+		const getMessage = this.client.i18n.getLocale(ticket.category.locale);
 		const staff = await isStaff(interaction.guild, interaction.user.id);
 		const reason = interaction.options?.getString('reason', false) || null; // ?. because it could be a button interaction
 
@@ -1098,7 +1098,7 @@ module.exports = class TicketManager {
 			ticket.category.enableFeedback &&
 			!ticket.feedback
 		) {
-			return await interaction.showModal(this.buildFeedbackModal(ticket.guild.locale, {
+			return await interaction.showModal(this.buildFeedbackModal(ticket.category.locale, {
 				next: 'requestClose',
 				reason, // known issue: a reason longer than a few words will cause an error due to 100 character custom_id limit
 			}));
@@ -1129,7 +1129,7 @@ module.exports = class TicketManager {
 	async requestClose(interaction, reason) {
 		// interaction could be command, button. or modal
 		const ticket = await this.getTicket(interaction.channel.id);
-		const getMessage = this.client.i18n.getLocale(ticket.guild.locale);
+		const getMessage = this.client.i18n.getLocale(ticket.category.locale);
 		const staff = interaction.user.id !== ticket.createdById && await isStaff(interaction.guild, interaction.user.id);
 		const closeButtonId = {
 			action: 'close',
@@ -1199,7 +1199,7 @@ module.exports = class TicketManager {
 	 */
 	async acceptClose(interaction) {
 		const ticket = await this.getTicket(interaction.channel.id);
-		const getMessage = this.client.i18n.getLocale(ticket.guild.locale);
+		const getMessage = this.client.i18n.getLocale(ticket.category.locale);
 		await interaction.editReply({
 			embeds: [
 				new ExtendedEmbedBuilder({
@@ -1224,7 +1224,7 @@ module.exports = class TicketManager {
 		reason = null,
 	}) {
 		let ticket = await this.getTicket(ticketId);
-		const getMessage = this.client.i18n.getLocale(ticket.guild.locale);
+		const getMessage = this.client.i18n.getLocale(ticket.category.locale);
 
 		const { _count: { archivedMessages } } = await this.client.prisma.ticket.findUnique({
 			select: { _count: { select: { archivedMessages: true } } },

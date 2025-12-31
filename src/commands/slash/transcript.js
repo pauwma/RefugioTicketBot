@@ -76,21 +76,21 @@ module.exports = class TranscriptSlashCommand extends SlashCommand {
 		const transcript = Mustache.render(this.template, {
 			channelName,
 			closedAtFull: function () {
-				return new Intl.DateTimeFormat([ticket.guild.locale, 'en-GB'], {
+				return new Intl.DateTimeFormat([ticket.category.locale, 'en-GB'], {
 					dateStyle: 'full',
 					timeStyle: 'long',
 					timeZone: 'Etc/UTC',
 				}).format(this.closedAt);
 			},
 			createdAtFull: function () {
-				return new Intl.DateTimeFormat([ticket.guild.locale, 'en-GB'], {
+				return new Intl.DateTimeFormat([ticket.category.locale, 'en-GB'], {
 					dateStyle: 'full',
 					timeStyle: 'long',
 					timeZone: 'Etc/UTC',
 				}).format(this.createdAt);
 			},
 			createdAtTimestamp: function () {
-				return new Intl.DateTimeFormat([ticket.guild.locale, 'en-GB'], {
+				return new Intl.DateTimeFormat([ticket.category.locale, 'en-GB'], {
 					dateStyle: 'short',
 					timeStyle: 'long',
 					timeZone: 'Etc/UTC',

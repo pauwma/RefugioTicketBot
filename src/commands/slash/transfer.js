@@ -112,7 +112,7 @@ module.exports = class TransferSlashCommand extends SlashCommand {
 			embeds: [
 				new EmbedBuilder()
 					.setColor(ticket.guild.primaryColour)
-					.setDescription(client.i18n.getMessage(ticket.guild.locale, `commands.slash.transfer.transferred${interaction.member.id !== from ? '_from' : ''}`, {
+					.setDescription(client.i18n.getMessage(ticket.category.locale, `commands.slash.transfer.transferred${interaction.member.id !== from ? '_from' : ''}`, {
 						from: `<@${from}>`,
 						to: member.toString(),
 						user: interaction.user.toString(),

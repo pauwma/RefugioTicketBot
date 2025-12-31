@@ -81,6 +81,7 @@ model Category {
     guildId         String
     id              Int        @id @default(autoincrement())
     image           String?
+    locale          String     @default("en-GB")
     memberLimit     Int        @default(1)
     name            String
     openingMessage  String
@@ -111,26 +112,28 @@ model Feedback {
 }
 
 model Guild {
-    autoClose     Int        @default(43200000)
-    autoTag       String     @default("[]")
-    archive       Boolean    @default(true)
-    blocklist     String     @default("[]")
-    categories    Category[]
-    claimButton   Boolean    @default(false)
-    closeButton   Boolean    @default(false)
-    createdAt     DateTime   @default(now())
-    errorColour   String     @default("Red")
-    feedback      Feedback[]
-    footer        String?    @default("Discord Tickets by eartharoid")
-    id            String     @id
-    locale        String     @default("en-GB")
-    logChannel    String?
-    primaryColour String     @default("#009999")
-    staleAfter    Int?
-    successColour String     @default("Green")
-    tags          Tag[]
-    tickets       Ticket[]
-    workingHours  String     @default("[\"UTC\", [\"00:00\",\"23:59\"], [\"00:00\",\"23:59\"], [\"00:00\",\"23:59\"], [\"00:00\",\"23:59\"], [\"00:00\",\"23:59\"], [\"00:00\",\"23:59\"], [\"00:00\",\"23:59\"]]")
+    autoClose       Int        @default(43200000)
+    autoTag         String     @default("[]")
+    archive         Boolean    @default(true)
+    blocklist       String     @default("[]")
+    categories      Category[]
+    claimButton     Boolean    @default(false)
+    closeButton     Boolean    @default(false)
+    createdAt       DateTime   @default(now())
+    englishRoleId   String?
+    errorColour     String     @default("Red")
+    feedback        Feedback[]
+    footer          String?    @default("Discord Tickets by eartharoid")
+    id              String     @id
+    locale          String     @default("en-GB")
+    logChannel      String?
+    primaryColour   String     @default("#009999")
+    spanishRoleId   String?
+    staleAfter      Int?
+    successColour   String     @default("Green")
+    tags            Tag[]
+    tickets         Ticket[]
+    workingHours    String     @default("[\"UTC\", [\"00:00\",\"23:59\"], [\"00:00\",\"23:59\"], [\"00:00\",\"23:59\"], [\"00:00\",\"23:59\"], [\"00:00\",\"23:59\"], [\"00:00\",\"23:59\"], [\"00:00\",\"23:59\"]]")
 
     @@map("guilds")
 }

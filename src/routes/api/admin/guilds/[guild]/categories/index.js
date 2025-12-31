@@ -110,6 +110,7 @@ module.exports.post = fastify => ({
 		}
 
 		data.channelName ||= 'ticket-{num}'; // not ??=, expect empty string
+		data.locale ||= 'en-GB'; // Default to English if not specified
 
 		const category = await client.prisma.category.create({
 			data: {

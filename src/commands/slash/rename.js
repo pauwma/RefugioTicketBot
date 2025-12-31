@@ -68,7 +68,7 @@ module.exports = class RenameSlashCommand extends SlashCommand {
 			});
 		}
 
-		const getMessage = client.i18n.getLocale(ticket.guild.locale);
+		const getMessage = client.i18n.getLocale(ticket.category.locale);
 
 		// Check if the user has permission to rename the channel
 		if (

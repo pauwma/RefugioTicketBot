@@ -90,7 +90,7 @@ module.exports.post = fastify => ({
 						}))
 						.setStyle(Primary)
 						.setLabel(getMessage('buttons.create.text'))
-						.setEmoji(getMessage('buttons.create.emoji')),
+						.setEmoji('🎟️'),
 				);
 			} else if (data.type === 'BUTTON') {
 				components.push(

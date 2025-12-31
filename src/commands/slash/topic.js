@@ -58,7 +58,7 @@ module.exports = class TopicSlashCommand extends SlashCommand {
 			});
 		}
 
-		const getMessage = client.i18n.getLocale(ticket.guild.locale);
+		const getMessage = client.i18n.getLocale(ticket.category.locale);
 
 		const field = new TextInputBuilder()
 			.setCustomId('topic')

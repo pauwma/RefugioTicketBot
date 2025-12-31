@@ -44,7 +44,7 @@ module.exports = class PinMessageCommand extends MessageCommand {
 			});
 		}
 
-		const getMessage = client.i18n.getLocale(ticket.guild.locale);
+		const getMessage = client.i18n.getLocale(ticket.category.locale);
 
 		if (!interaction.targetMessage.pinnable) {
 			return await interaction.editReply({

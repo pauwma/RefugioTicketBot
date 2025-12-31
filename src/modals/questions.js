@@ -85,7 +85,7 @@ module.exports = class QuestionsModal extends Modal {
 				select,
 				where: { id: interaction.channel.id },
 			});
-			const getMessage = client.i18n.getLocale(ticket.guild.locale);
+			const getMessage = client.i18n.getLocale(ticket.category.locale);
 
 			if (topic) await interaction.channel.setTopic(`<@${ticket.createdById}> | ${topic}`);
 

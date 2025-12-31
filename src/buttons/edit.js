@@ -34,7 +34,7 @@ module.exports = class EditButton extends Button {
 			where: { id: interaction.channel.id },
 		});
 
-		const getMessage = client.i18n.getLocale(ticket.guild.locale);
+		const getMessage = client.i18n.getLocale(ticket.category.locale);
 
 		if (ticket.questionAnswers.length === 0) {
 			const field = new TextInputBuilder()

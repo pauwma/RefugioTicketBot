@@ -65,7 +65,7 @@ module.exports = class MoveSlashCommand extends SlashCommand {
 			});
 		}
 
-		const getMessage = client.i18n.getLocale(ticket.guild.locale);
+		const getMessage = client.i18n.getLocale(ticket.category.locale);
 
 		if (!(await isStaff(interaction.guild, interaction.user.id))) { // if user is not staff
 			return await interaction.editReply({

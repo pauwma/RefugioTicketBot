@@ -29,6 +29,17 @@ module.exports.patch = fastify => ({
 		/** @type {import('client')} */
 		const client = req.routeOptions.config.client;
 		const id = req.params.guild;
+
+		// Validate language role IDs
+		if (data.englishRoleId || data.spanishRoleId) {
+			const guild = client.guilds.cache.get(id);
+			if (data.englishRoleId && !guild.roles.cache.has(data.englishRoleId)) {
+				throw new Error('Invalid English role ID');
+			}
+			if (data.spanishRoleId && !guild.roles.cache.has(data.spanishRoleId)) {
+				throw new Error('Invalid Spanish role ID');
+			}
+		}
 		const original = await client.prisma.guild.findUnique({ where: { id } });
 		const settings = await client.prisma.guild.update({
 			data: data,
