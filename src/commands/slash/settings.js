@@ -90,7 +90,7 @@ module.exports = class SettingsSlashCommand extends SlashCommand {
 			return await interaction.respond(
 				filtered.slice(0, 25).map(c => ({
 					name: c.name,
-					value: c.id.toString(),
+					value: String(c.id), // Explicitly convert to string
 				})),
 			);
 		}
@@ -173,8 +173,23 @@ module.exports = class SettingsSlashCommand extends SlashCommand {
 				],
 			});
 		} else if (subcommand === 'category-locale') {
-			const categoryId = parseInt(interaction.options.getString('category'));
+			const categoryIdString = interaction.options.getString('category');
+			const categoryId = parseInt(categoryIdString);
 			const locale = interaction.options.getString('locale');
+
+			if (!categoryIdString || isNaN(categoryId)) {
+				return await interaction.editReply({
+					embeds: [
+						new ExtendedEmbedBuilder({
+							iconURL: interaction.guild.iconURL(),
+							text: settings.footer,
+						})
+							.setColor(settings.errorColour)
+							.setTitle('Invalid category')
+							.setDescription('Please select a valid category from the dropdown.'),
+					],
+				});
+			}
 
 			const category = await client.prisma.category.findUnique({
 				where: { id: categoryId },
