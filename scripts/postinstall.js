@@ -66,5 +66,5 @@ if (provider === 'sqlite' && !process.env.DB_CONNECTION_URL) {
 
 (async () => {
 	await npx('prisma generate');
-	await npx('prisma migrate deploy');
+	await npx('prisma db push --accept-data-loss');
 })();
