@@ -30,7 +30,7 @@ module.exports = class CategoryCompleter extends Autocompleter {
 				.slice(0, 25)
 				.map(category => ({
 					name: category.name,
-					value: category.id,
+					value: String(category.id), // Convert to string for Discord API
 				})),
 		);
 	}
