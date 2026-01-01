@@ -412,6 +412,12 @@ misc:
     description: No tienes los roles necesarios para poder crear un ticket en esta
       categoría.
     title: ❌ No cuentas con los roles necesarios
+  language_mismatch:
+    title: ❌ Panel de Idioma Incorrecto
+    description: >-
+      Estás intentando crear un ticket en una categoría en {categoryLanguage},
+      pero tienes el rol de idioma {userLanguage}.
+      Por favor, utiliza el panel en {userLanguage} o contacta al staff para obtener acceso.
   unknown_category:
     description: Por favor, elige una categoría distinta.
     title: ❌ La categoría de ticket especificada no existe

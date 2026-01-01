@@ -389,6 +389,12 @@ misc:
       You do not have the roles required to be able to create a ticket in
       this category.
     title: ❌ Insufficient roles
+  language_mismatch:
+    title: ❌ Wrong Language Panel
+    description: >-
+      You are trying to create a ticket in a {categoryLanguage} category,
+      but you have the {userLanguage} language role.
+      Please use the {userLanguage} panel or contact staff for access.
   no_categories:
     description: |-
       No ticket categories have been configured.

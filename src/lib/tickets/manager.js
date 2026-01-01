@@ -17,7 +17,7 @@ const emoji = require('node-emoji');
 const ms = require('ms');
 const ExtendedEmbedBuilder = require('../embed');
 const { logTicketEvent } = require('../logging');
-const { isStaff } = require('../users');
+const { detectLanguageMismatch, isStaff } = require('../users');
 const { Collection } = require('discord.js');
 const spacetime = require('spacetime');
 
@@ -235,7 +235,41 @@ module.exports = class TicketManager {
 
 		if (category.requiredRoles.length !== 0) {
 			const missing = category.requiredRoles.some(r => !member.roles.cache.has(r));
-			if (missing) return await sendError('missing_roles');
+			if (missing) {
+				// Check if this is a language mismatch scenario
+				const mismatchInfo = detectLanguageMismatch(member, category, category.guild);
+
+				if (mismatchInfo.isLanguageMismatch) {
+					// Show error in user's language, not category locale
+					const userLanguageGetMessage = this.client.i18n.getLocale(mismatchInfo.userLanguage);
+
+					// Map locale codes to friendly names (user language → category language → display name)
+					const languageNames = {
+						'en-GB': { 'en-GB': 'English', 'es-ES': 'Spanish' },
+						'es-ES': { 'en-GB': 'Inglés', 'es-ES': 'Español' },
+					};
+
+					return await interaction.reply({
+						embeds: [
+							new ExtendedEmbedBuilder({
+								iconURL: guild.iconURL(),
+								text: category.guild.footer,
+							})
+								.setColor(category.guild.errorColour)
+								.setTitle(userLanguageGetMessage('misc.language_mismatch.title'))
+								.setDescription(
+									userLanguageGetMessage('misc.language_mismatch.description')
+										.replace('{categoryLanguage}', languageNames[mismatchInfo.userLanguage][mismatchInfo.categoryLanguage])
+										.replace(/{userLanguage}/g, languageNames[mismatchInfo.userLanguage][mismatchInfo.userLanguage]),
+								),
+						],
+						flags: MessageFlags.Ephemeral,
+					});
+				}
+
+				// Fall back to generic missing_roles error
+				return await sendError('missing_roles');
+			}
 		}
 
 		const discordCategory = guild.channels.cache.get(category.discordCategory);

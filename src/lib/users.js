@@ -92,3 +92,37 @@ module.exports.getUserLanguage = (member, guildSettings, defaultLocale = 'en-GB'
 
 	return defaultLocale;
 };
+
+/**
+ * Detect if user has wrong language role for category
+ * @param {import("discord.js").GuildMember} member - The guild member
+ * @param {Object} category - Category with locale field
+ * @param {Object} guildSettings - Guild settings with englishRoleId and spanishRoleId
+ * @returns {Object} - { isLanguageMismatch: boolean, userLanguage: string|null, categoryLanguage: string }
+ */
+module.exports.detectLanguageMismatch = (member, category, guildSettings) => {
+	const categoryLanguage = category.locale || 'en-GB';
+
+	// Check which language role(s) the user has
+	const hasEnglish = guildSettings.englishRoleId && member.roles.cache.has(guildSettings.englishRoleId);
+	const hasSpanish = guildSettings.spanishRoleId && member.roles.cache.has(guildSettings.spanishRoleId);
+
+	// If user has both or neither language roles, not a language mismatch
+	if ((hasEnglish && hasSpanish) || (!hasEnglish && !hasSpanish)) {
+		return {
+			categoryLanguage,
+			isLanguageMismatch: false,
+			userLanguage: null,
+		};
+	}
+
+	// User has exactly one language role - check if it matches category
+	const userLanguage = hasEnglish ? 'en-GB' : 'es-ES';
+	const isLanguageMismatch = userLanguage !== categoryLanguage;
+
+	return {
+		categoryLanguage,
+		isLanguageMismatch,
+		userLanguage,
+	};
+};
