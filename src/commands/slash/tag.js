@@ -54,7 +54,7 @@ module.exports = class TagSlashCommand extends SlashCommand {
 			content: user?.toString(),
 			embeds: [
 				new ExtendedEmbedBuilder()
-					.setColor(tag.guild.primaryColour)
+					.setColor(0x00ff88) // Bright green/cyan
 					.setDescription(tag.content),
 			],
 		});
