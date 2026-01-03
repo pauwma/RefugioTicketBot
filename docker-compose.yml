@@ -9,8 +9,8 @@ services:
       - tickets-mysql:/var/lib/mysql
     environment:
       MYSQL_DATABASE: tickets
-      MYSQL_PASSWORD: insecure # change this to a secure password
-      MYSQL_ROOT_PASSWORD: insecure # change this to a (different) secure password
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD} # change this to a secure password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} # change this to a (different) secure password
       MYSQL_USER: tickets
 
   bot:
@@ -32,13 +32,13 @@ services:
     # Please refer to the documentation:
     # https://discordtickets.app/self-hosting/configuration/#environment-variables
     environment:
-      DB_CONNECTION_URL: mysql://tickets:insecure@mysql/tickets # change `insecure` to the MYSQL_PASSWORD you set above
-      DISABLE_ENCRYPTION: "false"
-      DISCORD_SECRET: # required
-      DISCORD_TOKEN: # required
-      ENCRYPTION_KEY: # required
-      DB_PROVIDER: mysql
-      HTTP_EXTERNAL: http://127.0.0.1:8169 # change this to your server's external IP (or domain)
+      DB_CONNECTION_URL: ${DB_CONNECTION_URL} # change `insecure` to the MYSQL_PASSWORD you set above
+      DISABLE_ENCRYPTION: ${DISABLE_ENCRYPTION}
+      DISCORD_SECRET: ${DISCORD_SECRET} # required
+      DISCORD_TOKEN: ${DISCORD_TOKEN} # required
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY} # required
+      DB_PROVIDER: ${DB_PROVIDER}
+      HTTP_EXTERNAL: ${HTTP_EXTERNAL} # change this to your server's external IP (or domain)
       HTTP_HOST: 0.0.0.0
       HTTP_INTERNAL:
       HTTP_PORT: 8169
