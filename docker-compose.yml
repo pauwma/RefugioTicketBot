@@ -42,7 +42,7 @@ services:
       HTTP_HOST: 0.0.0.0
       HTTP_INTERNAL:
       HTTP_PORT: 8169
-      HTTP_TRUST_PROXY: "false" # set to true if you're using a reverse proxy
+      HTTP_TRUST_PROXY: ${HTTP_TRUST_PROXY} # set to true if you're using a reverse proxy
       INVALIDATE_TOKENS:
       OVERRIDE_ARCHIVE: null
       PUBLIC_BOT: "false"
