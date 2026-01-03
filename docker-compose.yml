@@ -47,7 +47,7 @@ services:
       OVERRIDE_ARCHIVE: null
       PUBLIC_BOT: "false"
       PUBLISH_COMMANDS: "false"
-      SUPER: 319467558166069248 # optionally add `,youruseridhere`
+      SUPER: 362627839339790336 # optionally add `,youruseridhere`
 
 networks:
   discord-tickets:
