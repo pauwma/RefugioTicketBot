@@ -25,6 +25,7 @@ services:
       - discord-tickets
     ports:
       - 8169:8169
+    user: "1000:1000"
     volumes:
       - ../files/bot:/home/container/user
       - /etc/timezone:/etc/timezone:ro
