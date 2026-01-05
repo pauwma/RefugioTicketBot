@@ -1,6 +1,5 @@
 services:
   mysql:
-    container_name: discord-tickets-mysql
     image: mysql:8
     restart: unless-stopped
     hostname: mysql
@@ -15,7 +14,6 @@ services:
       MYSQL_USER: tickets
 
   bot:
-    container_name: discord-tickets-bot
     build: .
     depends_on:
       - mysql
@@ -54,3 +52,7 @@ services:
 
 networks:
   discord-tickets:
+
+volumes:
+  tickets-mysql:
+  tickets-bot:
