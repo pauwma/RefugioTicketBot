@@ -26,7 +26,7 @@ services:
     ports:
       - 8169:8169
     volumes:
-    - ../files/bot:/home/container/user
+      - ../files/bot:/home/container/user
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     tty: true
