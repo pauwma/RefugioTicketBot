@@ -1,15 +1,12 @@
-name: discord-tickets
-
 services:
   mysql:
-    container_name: discord-tickets-mysql
     image: mysql:8
     restart: unless-stopped
     hostname: mysql
     networks:
       - discord-tickets
     volumes:
-      - ${DISCORD_TICKETS_DATA_DIR}/mysql:/var/lib/mysql
+      - tickets-mysql:/var/lib/mysql
     environment:
       MYSQL_DATABASE: tickets
       MYSQL_PASSWORD: ${MYSQL_PASSWORD} # change this to a secure password
@@ -17,9 +14,7 @@ services:
       MYSQL_USER: tickets
 
   bot:
-    container_name: discord-tickets-bot
-    build:
-      context: ${BOT_CONTEXT_DIR}
+    build: .
     depends_on:
       - mysql
     restart: unless-stopped
@@ -27,10 +22,9 @@ services:
     networks:
       - discord-tickets
     ports:
-      - "8169:8169"
-    user: "1000:1000"
+      - 8169:8169
     volumes:
-      - ${DISCORD_TICKETS_DATA_DIR}/bot:/home/container/user
+      - tickets-bot:/home/container/user
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     tty: true
@@ -38,25 +32,26 @@ services:
     # Please refer to the documentation:
     # https://discordtickets.app/self-hosting/configuration/#environment-variables
     environment:
-      DB_PROVIDER: mysql
-      DB_CONNECTION_URL: ${DB_CONNECTION_URL}
-
-      DISCORD_SECRET: ${DISCORD_SECRET}
-      DISCORD_TOKEN: ${DISCORD_TOKEN}
-      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+      DB_CONNECTION_URL: ${DB_CONNECTION_URL} # change `insecure` to the MYSQL_PASSWORD you set above
       DISABLE_ENCRYPTION: ${DISABLE_ENCRYPTION}
-
-      HTTP_EXTERNAL: ${HTTP_EXTERNAL}
+      DISCORD_SECRET: ${DISCORD_SECRET} # required
+      DISCORD_TOKEN: ${DISCORD_TOKEN} # required
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY} # required
+      DB_PROVIDER: ${DB_PROVIDER}
+      HTTP_EXTERNAL: ${HTTP_EXTERNAL} # change this to your server's external IP (or domain)
       HTTP_HOST: 0.0.0.0
-      HTTP_INTERNAL: ""
+      HTTP_INTERNAL:
       HTTP_PORT: 8169
-      HTTP_TRUST_PROXY: ${HTTP_TRUST_PROXY}
-
-      INVALIDATE_TOKENS: ""
-      OVERRIDE_ARCHIVE: ""
+      HTTP_TRUST_PROXY: ${HTTP_TRUST_PROXY} # set to true if you're using a reverse proxy
+      INVALIDATE_TOKENS:
+      OVERRIDE_ARCHIVE: null
       PUBLIC_BOT: "false"
       PUBLISH_COMMANDS: "false"
-      SUPER: "362627839339790336"
+      SUPER: 362627839339790336 # optionally add `,youruseridhere`
 
 networks:
   discord-tickets:
+
+volumes:
+  tickets-mysql:
+  tickets-bot:
